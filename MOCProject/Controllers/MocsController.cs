@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using MOCProject.Data;
 using MOCProject.Models;
+using MOCProject.ModelViews;
 
 namespace MOCProject.Controllers
 {
@@ -46,7 +48,10 @@ namespace MOCProject.Controllers
         // GET: Mocs/Create
         public IActionResult Create()
         {
-            return View();
+            var viewModel = new MocCreateViewModel();
+            viewModel.Departments = _context.Departments.ToList();
+            viewModel.Users = _context.Users.ToList();
+            return View(viewModel);
         }
 
         // POST: Mocs/Create
@@ -54,15 +59,16 @@ namespace MOCProject.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Name,Definition,Justification,Benefit,ClosingDate,Id")] Moc moc)
+        public async Task<IActionResult> Create(Moc moc)
         {
-            if (ModelState.IsValid)
-            {
-                _context.Add(moc);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            return View(moc);
+            //if (ModelState.IsValid)
+            //{
+            //    _context.Add(moc);
+            //    await _context.SaveChangesAsync();
+            //    return RedirectToAction(nameof(Index));
+            //}
+            //return View(moc);
+            return View();
         }
 
         // GET: Mocs/Edit/5

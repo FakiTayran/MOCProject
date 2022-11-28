@@ -1,4 +1,4 @@
-﻿@model MOCProject.Models.Moc
+﻿@model MOCProject.ModelViews.MocCreateViewModel
 
 @{
     ViewData["Title"] = "Create";
@@ -14,22 +14,22 @@
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger"></span>
+                <label asp-for="Moc.Name" class="control-label"></label>
+                <input asp-for="Moc.Name" class="form-control" />
+                <span asp-validation-for="Moc.Name" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Definition" class="control-label"></label>
-                <input asp-for="Definition" class="form-control" />
-                <span asp-validation-for="Definition" class="text-danger"></span>
+                <label asp-for="Moc.Definition" class="control-label"></label>
+                <input asp-for="Moc.Definition" class="form-control" />
+                <span asp-validation-for="Moc.Definition" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Justification" class="control-label"></label>
-                <input asp-for="Justification" class="form-control" />
+                <label asp-for="Moc.Justification" class="control-label"></label>
+                <input asp-for="Moc.Justification" class="form-control" />
             </div>
             <div class="form-group">
-                <label asp-for="Benefit" class="control-label"></label>
-                <input asp-for="Benefit" class="form-control" />
+                <label asp-for="Moc.Benefit" class="control-label"></label>
+                <input asp-for="Moc.Benefit" class="form-control" />
             </div>
             <div class="form-group">
                 <div class="row">
@@ -37,12 +37,10 @@
                         <div class="button-group">
                             <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown"><span>Related Departments</span> <span class="caret"></span></button>
                             <ul class="dropdown-menu">
-                                <li><a href="#" class="small" data-value="option1" tabIndex="-1"><input type="checkbox" />&nbsp;Option 1</a></li>
-                                <li><a href="#" class="small" data-value="option2" tabIndex="-1"><input type="checkbox" />&nbsp;Option 2</a></li>
-                                <li><a href="#" class="small" data-value="option3" tabIndex="-1"><input type="checkbox" />&nbsp;Option 3</a></li>
-                                <li><a href="#" class="small" data-value="option4" tabIndex="-1"><input type="checkbox" />&nbsp;Option 4</a></li>
-                                <li><a href="#" class="small" data-value="option5" tabIndex="-1"><input type="checkbox" />&nbsp;Option 5</a></li>
-                                <li><a href="#" class="small" data-value="option6" tabIndex="-1"><input type="checkbox" />&nbsp;Option 6</a></li>
+                                @foreach (var item in Model.Departments)
+                                {
+                                    <li><input type="checkbox" class="DepartmentId" id="subDepartmentId + @item.Id" value=@item />&nbsp;@item.Name</li>
+                                }
                             </ul>
                         </div>
                     </div>
@@ -54,29 +52,27 @@
                         <div class="button-group">
                             <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown"><span>Related Users</span> <span class="caret"></span></button>
                             <ul class="dropdown-menu">
-                                <li><a href="#" class="small" data-value="option1" tabIndex="-1"><input type="checkbox" />&nbsp;Option 1</a></li>
-                                <li><a href="#" class="small" data-value="option2" tabIndex="-1"><input type="checkbox" />&nbsp;Option 2</a></li>
-                                <li><a href="#" class="small" data-value="option3" tabIndex="-1"><input type="checkbox" />&nbsp;Option 3</a></li>
-                                <li><a href="#" class="small" data-value="option4" tabIndex="-1"><input type="checkbox" />&nbsp;Option 4</a></li>
-                                <li><a href="#" class="small" data-value="option5" tabIndex="-1"><input type="checkbox" />&nbsp;Option 5</a></li>
-                                <li><a href="#" class="small" data-value="option6" tabIndex="-1"><input type="checkbox" />&nbsp;Option 6</a></li>
+                                @foreach (var item in Model.Users)
+                                {
+                                    <li><input type="checkbox" class="UserId" id="subUserId + @item.Id" value="@item" />&nbsp;@item.UserName</li>
+                                }
                             </ul>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="form-group">
-                <label asp-for="InitiationDate" class="control-label"></label>
-                <input asp-for="InitiationDate" class="form-control" />
-                <span asp-validation-for="InitiationDate" class="text-danger"></span>
+                <label asp-for="Moc.InitiationDate" class="control-label"></label>
+                <input asp-for="Moc.InitiationDate" class="form-control" />
+                <span asp-validation-for="Moc.InitiationDate" class="text-danger"></span>
             </div>
 
             <div class="form-group">
-                <label asp-for="ClosingDate" class="control-label"></label>
-                <input asp-for="ClosingDate" class="form-control" />
+                <label asp-for="Moc.ClosingDate" class="control-label"></label>
+                <input asp-for="Moc.ClosingDate" class="form-control" />
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Create" class="btn btn-primary" id="submit" />
             </div>
         </form>
     </div>
@@ -89,3 +85,20 @@
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        //var departments;
+        //$("#submit").submit(function () {
+        //    console.log("burda")
+        //    $(".DepartmentId").each(function () {
+        //        if ($(this).is(":checked")) {
+        //            console.log(departments);
+
+        //        }
+        //    });
+        //});
+    })
+
+</script>
