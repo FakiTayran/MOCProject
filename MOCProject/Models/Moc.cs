@@ -17,11 +17,11 @@ namespace MOCProject.Models
         public string Justification { get; set; }
         public string Benefit { get; set; }
 
-        public virtual IEnumerable<Department> RelatedDepartments { get; set; }
+        public virtual ICollection<Department> RelatedDepartments { get; set; }
 
-        public virtual IEnumerable<IdentityUser> RelatedUsers { get; set;}
+        public virtual ICollection<ApplicationUser> RelatedUsers { get; set;}
 
-        public virtual IEnumerable<Task> Tasks { get; set; }
+        public virtual ICollection<Task> Tasks { get; set; }
 
         public DateTime InitiationDate { get => DateTime.Now; }
         public DateTime ClosingDate { get; set; }

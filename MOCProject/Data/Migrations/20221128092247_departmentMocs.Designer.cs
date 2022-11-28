@@ -4,35 +4,22 @@ using MOCProject.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace MOCProject.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221128092247_departmentMocs")]
+    partial class departmentMocs
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("ProductVersion", "5.0.17")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-            modelBuilder.Entity("ApplicationUserMoc", b =>
-                {
-                    b.Property<int>("MocsId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("RelatedUsersId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("MocsId", "RelatedUsersId");
-
-                    b.HasIndex("RelatedUsersId");
-
-                    b.ToTable("ApplicationUserMoc");
-                });
 
             modelBuilder.Entity("DepartmentMoc", b =>
                 {
@@ -198,9 +185,8 @@ namespace MOCProject.Data.Migrations
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Discriminator")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int?>("DepartmentId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Email")
                         .HasMaxLength(256)
@@ -214,6 +200,9 @@ namespace MOCProject.Data.Migrations
 
                     b.Property<DateTimeOffset?>("LockoutEnd")
                         .HasColumnType("datetimeoffset");
+
+                    b.Property<int?>("MocId")
+                        .HasColumnType("int");
 
                     b.Property<string>("NormalizedEmail")
                         .HasMaxLength(256)
@@ -244,6 +233,10 @@ namespace MOCProject.Data.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("DepartmentId");
+
+                    b.HasIndex("MocId");
+
                     b.HasIndex("NormalizedEmail")
                         .HasDatabaseName("EmailIndex");
 
@@ -253,8 +246,6 @@ namespace MOCProject.Data.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers");
-
-                    b.HasDiscriminator<string>("Discriminator").HasValue("IdentityUser");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
@@ -341,33 +332,6 @@ namespace MOCProject.Data.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("MOCProject.Models.ApplicationUser", b =>
-                {
-                    b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUser");
-
-                    b.Property<int>("DepartmentId")
-                        .HasColumnType("int");
-
-                    b.HasIndex("DepartmentId");
-
-                    b.HasDiscriminator().HasValue("ApplicationUser");
-                });
-
-            modelBuilder.Entity("ApplicationUserMoc", b =>
-                {
-                    b.HasOne("MOCProject.Models.Moc", null)
-                        .WithMany()
-                        .HasForeignKey("MocsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("MOCProject.Models.ApplicationUser", null)
-                        .WithMany()
-                        .HasForeignKey("RelatedUsersId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("DepartmentMoc", b =>
                 {
                     b.HasOne("MOCProject.Models.Moc", null)
@@ -400,8 +364,8 @@ namespace MOCProject.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("MOCProject.Models.ApplicationUser", "RelatedUser")
-                        .WithMany("Tasks")
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "RelatedUser")
+                        .WithMany()
                         .HasForeignKey("RelatedUserId");
 
                     b.Navigation("Moc");
@@ -416,6 +380,17 @@ namespace MOCProject.Data.Migrations
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUser", b =>
+                {
+                    b.HasOne("MOCProject.Models.Department", null)
+                        .WithMany("DepartmentMember")
+                        .HasForeignKey("DepartmentId");
+
+                    b.HasOne("MOCProject.Models.Moc", null)
+                        .WithMany("RelatedUsers")
+                        .HasForeignKey("MocId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
@@ -460,17 +435,6 @@ namespace MOCProject.Data.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("MOCProject.Models.ApplicationUser", b =>
-                {
-                    b.HasOne("MOCProject.Models.Department", "Department")
-                        .WithMany("DepartmentMember")
-                        .HasForeignKey("DepartmentId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Department");
-                });
-
             modelBuilder.Entity("MOCProject.Models.Department", b =>
                 {
                     b.Navigation("DepartmentMember");
@@ -478,11 +442,8 @@ namespace MOCProject.Data.Migrations
 
             modelBuilder.Entity("MOCProject.Models.Moc", b =>
                 {
-                    b.Navigation("Tasks");
-                });
+                    b.Navigation("RelatedUsers");
 
-            modelBuilder.Entity("MOCProject.Models.ApplicationUser", b =>
-                {
                     b.Navigation("Tasks");
                 });
 #pragma warning restore 612, 618

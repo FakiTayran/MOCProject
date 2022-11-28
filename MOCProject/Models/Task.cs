@@ -23,7 +23,7 @@ namespace MOCProject.Models
         [MaxLength(255)]
         public string Definition { get; set; }
 
-        public IdentityUser RelatedUser { get; set; }
+        public ApplicationUser RelatedUser { get; set; }
 
         public Moc Moc { get; set; }
     }
