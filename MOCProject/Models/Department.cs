@@ -11,7 +11,7 @@ namespace MOCProject.Models
     {
         [Required]
         public string Name { get; set; }
-        public virtual ICollection<ApplicationUser> DepartmentMember { get; set; }
+        public virtual ICollection<ApplicationUser> DepartmentMembers { get; set; }
         public virtual ICollection<Moc> Mocs { get; set; }
     }
 }

@@ -11,7 +11,7 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Create">
+        <form onsubmit="return FillMoc(event)" id="createMocForm">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Moc.Name" class="control-label"></label>
@@ -32,35 +32,27 @@
                 <input asp-for="Moc.Benefit" class="form-control" />
             </div>
             <div class="form-group">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="button-group">
-                            <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown"><span>Related Departments</span> <span class="caret"></span></button>
-                            <ul class="dropdown-menu">
-                                @foreach (var item in Model.Departments)
-                                {
-                                    <li><input type="checkbox" class="DepartmentId" id="subDepartmentId + @item.Id" value=@item />&nbsp;@item.Name</li>
-                                }
-                            </ul>
+                <div>
+                    @foreach (var item in Model.Departments)
+                    {
+                        <div>
+                            <div class="d-flex float-left">
+                                <input type="checkbox" class="DepartmentId" id="subDepartmentId_@item.Id" value=@item.Id onclick="CheckDepartment(@item.Id)" />&nbsp;@item.Name
+                            </div>
+                            <div class="d-flex float-right">
+                                <button type="button" class="btn btn-default btn-sm dropdown-toggle departmentsButton" id="buttonDepartmentUsers_@item.Id" data-toggle="dropdown"><span>Related Users</span> <span class="caret"></span></button>
+                                <ul class="dropdown-menu">
+                                    @foreach (var user in item.DepartmentMembers.ToList())
+                                    {
+                                        <li><input type="checkbox" class="UserId" id="subUserId_@user.Id" value="@user.Id" />&nbsp;@user.UserName</li>
+                                    }
+                                </ul>
+                            </div>
                         </div>
-                    </div>
+                    }
                 </div>
             </div>
-            <div class="form-group">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="button-group">
-                            <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown"><span>Related Users</span> <span class="caret"></span></button>
-                            <ul class="dropdown-menu">
-                                @foreach (var item in Model.Users)
-                                {
-                                    <li><input type="checkbox" class="UserId" id="subUserId + @item.Id" value="@item" />&nbsp;@item.UserName</li>
-                                }
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <br />
             <div class="form-group">
                 <label asp-for="Moc.InitiationDate" class="control-label"></label>
                 <input asp-for="Moc.InitiationDate" class="form-control" />
@@ -72,7 +64,7 @@
                 <input asp-for="Moc.ClosingDate" class="form-control" />
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" id="submit" />
+                <input type="submit" class="btn btn-primary" id="submit" />
             </div>
         </form>
     </div>
@@ -89,16 +81,74 @@
 
 <script type="text/javascript">
     $(document).ready(function () {
-        //var departments;
-        //$("#submit").submit(function () {
-        //    console.log("burda")
-        //    $(".DepartmentId").each(function () {
-        //        if ($(this).is(":checked")) {
-        //            console.log(departments);
+        $(".departmentsButton").hide()
+    });
 
-        //        }
-        //    });
-        //});
-    })
+    function CheckDepartment(Id) {
+        var fullId = "#" + "subDepartmentId_" + Id;
+        var buttonId = "#" + "buttonDepartmentUsers_" + Id;
+        console.log(fullId)
+        if ($(fullId).is(":checked")) {
+            console.log(buttonId);
+            $(buttonId).show();
+        }
+        else {
+            $(buttonId).hide();
+        }
+    }
+
+    function FillMoc(e) {
+        e.preventDefault();
+        SendForm();
+    }
+
+    function SendForm() {
+        const formData = new FormData(createMocForm);
+        var moc = {};
+        var departments = [];
+        var users = [];
+        $(".DepartmentId").each(function () {
+            if ($(this).is(":checked")) {
+                departments.push({ "Id": $(this).val() });
+            }
+        });
+        $(".UserId").each(function () {
+            if ($(this).is(":checked")) {
+                users.push({ "Id": $(this).val() });
+            }
+        });
+        console.log("departmanlar" + departments);
+        console.log("kullanıcılar" + users);
+        for (var pair of formData.entries()) {
+            var objectName = pair[0].split(".")[1].toString();
+            moc[objectName] = pair[1];
+            console.log(objectName);
+        }
+        moc["RelatedDepartments"] = departments;
+        moc["RelatedUsers"] = users;
+        console.log(JSON.stringify(moc));
+
+        $.ajax({
+            type: "POST",
+            //contentType: "application/json; charset=utf-8",
+            url: '@Url.Action("Create", "Mocs")',
+            data: moc,
+            //dataType: 'json',
+            success: function (response) {
+                if (response.success) {
+                    alert("Başarıyla Eklendi");
+                    window.location.href = "/Mocs/Index"
+                } else {
+                    // DoSomethingElse()
+                    alert("Başarısız");
+                }
+            },
+            error: function (response) {
+                alert("error!");  //
+            }
+        });
+    }
+
+
 
 </script>

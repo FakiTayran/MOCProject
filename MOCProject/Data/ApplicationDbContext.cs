@@ -7,12 +7,13 @@ using System.Text;
 
 namespace MOCProject.Data
 {
-    public class ApplicationDbContext : IdentityDbContext
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
         }
+
             public DbSet<Moc> Mocs { get; set; }
             public DbSet<Department> Departments { get; set; }
             public DbSet<Task> Tasks { get; set; }

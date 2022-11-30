@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -16,15 +17,10 @@ namespace MOCProject.Models
         public string Definition { get; set; }
         public string Justification { get; set; }
         public string Benefit { get; set; }
-
         public virtual ICollection<Department> RelatedDepartments { get; set; }
-
         public virtual ICollection<ApplicationUser> RelatedUsers { get; set;}
-
         public virtual ICollection<Task> Tasks { get; set; }
-
         public DateTime InitiationDate { get => DateTime.Now; }
         public DateTime ClosingDate { get; set; }
-        public IdentityUser Creator { get; set; }
     }
 }

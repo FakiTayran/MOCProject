@@ -1,6 +1,8 @@
-﻿@{
+﻿@model List<MOCProject.Models.Moc>
+@{
     ViewData["Title"] = "Home Page";
 }
+
 
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
@@ -18,14 +20,17 @@
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <th scope="row">test değişikliği</th>
-                <td>test açıklaması</td>
-                <td>test gerekçesi</td>
-                <td>test yararları</td>
-                <td>test tarihi</td>
-                <td>test tarihi</td>
-            </tr>
+            @foreach (var item in Model.ToList())
+            {
+                <tr>
+                    <th scope="row">@item.Name</th>
+                    <td>@item.Definition</td>
+                    <td>@item.Justification</td>
+                    <td>@item.Benefit</td>
+                    <td>@item.InitiationDate</td>
+                    <td>@item.ClosingDate</td>
+                </tr>
+            }
         </tbody>
     </table>
 </div>

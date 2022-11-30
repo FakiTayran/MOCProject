@@ -11,6 +11,5 @@ namespace MOCProject.ModelViews
     {
         public Moc Moc { get; set; }
         public List<Department> Departments { get; set; }
-        public List<IdentityUser> Users { get; set; }
     }
 }

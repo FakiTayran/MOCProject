@@ -49,8 +49,7 @@ namespace MOCProject.Controllers
         public IActionResult Create()
         {
             var viewModel = new MocCreateViewModel();
-            viewModel.Departments = _context.Departments.ToList();
-            viewModel.Users = _context.Users.ToList();
+            viewModel.Departments = _context.Departments.Include(x => x.DepartmentMembers).ToList();
             return View(viewModel);
         }
 
@@ -58,17 +57,30 @@ namespace MOCProject.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
+        //[ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Moc moc)
         {
-            //if (ModelState.IsValid)
-            //{
-            //    _context.Add(moc);
-            //    await _context.SaveChangesAsync();
-            //    return RedirectToAction(nameof(Index));
-            //}
-            //return View(moc);
-            return View();
+            var stringOfDepartments = moc.RelatedDepartments.Select(x => x.Id).ToString();
+            List<Department> Departments = new List<Department>();
+            List<ApplicationUser> Users = new List<ApplicationUser>();
+            foreach (int Id in moc.RelatedDepartments.Select(x => x.Id))
+            {
+                var department = _context.Departments.FirstOrDefault(x => x.Id == Id);
+                Departments.Add(department);
+            }
+            foreach (string Id in moc.RelatedUsers.Select(x => x.Id))
+            {
+                var user = _context.Users.FirstOrDefault(x => x.Id == Id);
+                Users.Add(user);
+            }
+            moc.RelatedDepartments = Departments;
+            moc.RelatedUsers = Users;
+
+            _context.Add(moc);
+            await _context.SaveChangesAsync();
+            var response = new { success = true, responseText = "success" };
+            return Content(Newtonsoft.Json.JsonConvert.SerializeObject(response), "application/json");
+
         }
 
         // GET: Mocs/Edit/5
