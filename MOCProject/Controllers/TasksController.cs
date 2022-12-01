@@ -85,7 +85,7 @@ namespace MOCProject.Controllers
                 ApplicationUser applicationUser = _context.Users.FirstOrDefault(x => x.Id == task.RelatedUserId);
                 task.RelatedUser = applicationUser;
                 await _context.SaveChangesAsync();
-                var subject = "Size " + task.Moc.Name + "için" + " yeni görev açıldı";
+                var subject = "Size " + task.Moc.Name + " için" + " yeni görev açıldı";
                 List<string> mailList = new List<string>();
                 var to = task.RelatedUser.Email;
                 mailList.Add(to);
