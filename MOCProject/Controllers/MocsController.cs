@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Mail;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -10,6 +11,7 @@ using Microsoft.EntityFrameworkCore;
 using MOCProject.Data;
 using MOCProject.Models;
 using MOCProject.ModelViews;
+using MOCProject.Utility;
 
 namespace MOCProject.Controllers
 {
@@ -43,7 +45,6 @@ namespace MOCProject.Controllers
             {
                 return NotFound();
             }
-
             return View(moc);
         }
 
@@ -52,7 +53,11 @@ namespace MOCProject.Controllers
         {
             var viewModel = new MocCreateViewModel();
             viewModel.Departments = _context.Departments.Include(x => x.DepartmentMembers).ToList();
-            return View(viewModel);
+            if (viewModel.Departments.Count > 0)
+            {
+                return View(viewModel);
+            }
+            return View();
         }
 
         // POST: Mocs/Create
@@ -81,6 +86,11 @@ namespace MOCProject.Controllers
             _context.Add(moc);
             await _context.SaveChangesAsync();
             var response = new { success = true, responseText = "success" };
+            var subject =  moc.Name + "adında" + "sizin ve departmanınızın dahil olduğu bir MOC açıldı";
+            var from = moc;
+            var to = moc.RelatedUsers.Select(x=>x.Email).ToList();
+            var body = moc.Definition;
+            MailHelper.MailSender(subject, to, body, MailPriority.High);
             return Content(Newtonsoft.Json.JsonConvert.SerializeObject(response), "application/json");
 
         }
