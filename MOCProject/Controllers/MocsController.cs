@@ -86,7 +86,7 @@ namespace MOCProject.Controllers
             _context.Add(moc);
             await _context.SaveChangesAsync();
             var response = new { success = true, responseText = "success" };
-            var subject =  moc.Name + "adında" + "sizin ve departmanınızın dahil olduğu bir MOC açıldı";
+            var subject =  moc.Name + " adında " + " sizin ve departmanınızın dahil olduğu bir MOC açıldı";
             var from = moc;
             var to = moc.RelatedUsers.Select(x=>x.Email).ToList();
             var body = moc.Definition;
