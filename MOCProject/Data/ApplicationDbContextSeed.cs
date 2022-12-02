@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
 using System.Collections.Generic;
@@ -7,78 +8,64 @@ using System.Threading.Tasks;
 
 namespace MOCProject.Data
 {
-    public static class ApplicationDbContextSeed
+    public class ApplicationDbContextSeed
     {
-        public static void SeedDepartments(ApplicationDbContext db)
+        public static void SeedDepartments(IApplicationBuilder applicationBuilder)
         {
-            if (!db.Departments.Any())
+            using (var serviceScope = applicationBuilder.ApplicationServices.CreateScope())
             {
-                db.Departments.Add(new Models.Department()
+                var db = serviceScope.ServiceProvider.GetService<ApplicationDbContext>();
+                if (!db.Departments.Any())
                 {
-                    Name = "İSG Departmanı",
+                    db.Departments.Add(new Models.Department()
+                    {
+                        Name = "İSG Departmanı",
 
-                });
-                db.Departments.Add(new Models.Department()
-                {
-                    Name = "Kalite Departmanı",
+                    });
+                    db.Departments.Add(new Models.Department()
+                    {
+                        Name = "Kalite Departmanı",
 
-                });
-                db.Departments.Add(new Models.Department()
-                {
-                    Name = "Üretim, Satın Alma Departmanı",
+                    });
+                    db.Departments.Add(new Models.Department()
+                    {
+                        Name = "Üretim, Satın Alma Departmanı",
 
-                });
-                db.Departments.Add(new Models.Department()
-                {
-                    Name = "Bilişim Teknolojileri Departmanı",
+                    });
+                    db.Departments.Add(new Models.Department()
+                    {
+                        Name = "Bilişim Teknolojileri Departmanı",
 
-                });
-                db.Departments.Add(new Models.Department()
-                {
-                    Name = "Planlama Departmanı",
+                    });
+                    db.Departments.Add(new Models.Department()
+                    {
+                        Name = "Planlama Departmanı",
 
-                });
-                db.Departments.Add(new Models.Department()
-                {
-                    Name = "Lojistik Departmanı",
+                    });
+                    db.Departments.Add(new Models.Department()
+                    {
+                        Name = "Lojistik Departmanı",
 
-                });
-                db.Departments.Add(new Models.Department()
-                {
-                    Name = "İnsan Kaynakları Departmanı",
+                    });
+                    db.Departments.Add(new Models.Department()
+                    {
+                        Name = "İnsan Kaynakları Departmanı",
 
-                });
-                db.Departments.Add(new Models.Department()
-                {
-                    Name = "Muhasebe ve Finans Departmanı",
+                    });
+                    db.Departments.Add(new Models.Department()
+                    {
+                        Name = "Muhasebe ve Finans Departmanı",
 
-                });
-                db.Departments.Add(new Models.Department()
-                {
-                    Name = "İdari İşler Departmanı",
+                    });
+                    db.Departments.Add(new Models.Department()
+                    {
+                        Name = "İdari İşler Departmanı",
 
-                });
+                    });
 
-                db.SaveChanges();
-            }
-
-        }
-        public static async Task<IHost> SeedAsync(this IHost host)
-        {
-            // http://www.binaryintellect.net/articles/5e180dfa-4438-45d8-ac78-c7cc11735791.aspx
-            // https://github.com/dotnet-architecture/eShopOnWeb/blob/master/src/Web/Startup.cs
-            using (var scope = host.Services.CreateScope())
-            {
-                var serviceProvider = scope.ServiceProvider;
-                var env = serviceProvider.GetRequiredService<IHostEnvironment>();
-                var db = serviceProvider.GetRequiredService<ApplicationDbContext>();
-
-                if (env.IsDevelopment())
-                {
-                    SeedDepartments(db);
+                    db.SaveChanges();
                 }
             }
-            return host;
         }
     }
 }

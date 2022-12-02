@@ -73,6 +73,9 @@ namespace MOCProject
                     pattern: "{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapRazorPages();
             });
+
+            //Seed Database 
+            ApplicationDbContextSeed.SeedDepartments(app);
         }
     }
 }

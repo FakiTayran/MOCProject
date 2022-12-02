@@ -4,8 +4,6 @@
     <TargetFramework>net5.0</TargetFramework>
     <UserSecretsId>aspnet-MOCProject-83960A37-2BAD-4744-8A14-1DEBE5635CE1</UserSecretsId>
     <ApplicationIcon />
-    <OutputType>Library</OutputType>
-    <StartupObject />
   </PropertyGroup>
 
   <ItemGroup>
