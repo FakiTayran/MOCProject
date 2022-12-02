@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using MOCProject.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,9 +12,9 @@ namespace MOCProject
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static async void Main(string[] args)
         {
-            CreateHostBuilder(args).Build().Run();
+             (await CreateHostBuilder(args).Build().SeedAsync()).Run();
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
