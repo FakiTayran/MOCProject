@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Mail;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -12,6 +13,7 @@ using MOCProject.Data;
 using MOCProject.Models;
 using MOCProject.ModelViews;
 using MOCProject.Utility;
+using MOCProject.ViewModels;
 
 namespace MOCProject.Controllers
 {
@@ -19,10 +21,12 @@ namespace MOCProject.Controllers
     public class MocsController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<ApplicationUser> userManager;
 
-        public MocsController(ApplicationDbContext context)
+        public MocsController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
+            this.userManager = userManager;
         }
 
         // GET: Mocs
@@ -82,13 +86,14 @@ namespace MOCProject.Controllers
             }
             moc.RelatedDepartments = Departments;
             moc.RelatedUsers = Users;
+            moc.CreatorId = userManager.GetUserId(new ClaimsPrincipal(User.Identity));
 
             _context.Add(moc);
             await _context.SaveChangesAsync();
             var response = new { success = true, responseText = "success" };
-            var subject =  moc.Name + " adında " + " sizin ve departmanınızın dahil olduğu bir MOC açıldı";
+            var subject = moc.Name + " adında " + " sizin ve departmanınızın dahil olduğu bir MOC açıldı";
             var from = moc;
-            var to = moc.RelatedUsers.Select(x=>x.Email).ToList();
+            var to = moc.RelatedUsers.Select(x => x.Email).ToList();
             var body = moc.Definition;
             MailHelper.MailSender(subject, to, body, MailPriority.High);
             return Content(Newtonsoft.Json.JsonConvert.SerializeObject(response), "application/json");
@@ -96,5 +101,79 @@ namespace MOCProject.Controllers
         }
 
         // GET: Mocs/Edit/5
+
+        public async Task<IActionResult> Edit(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var moc = await _context.Mocs.FindAsync(id);
+            MocEditViewModel mocEditViewModel = new MocEditViewModel();
+            mocEditViewModel.Id = moc.Id;
+            if (moc == null)
+            {
+                return NotFound();
+            }
+            return View(mocEditViewModel);
+        }
+
+        // POST: Mocs/Edit/5
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, MocEditViewModel mocEditViewModel)
+        {
+            if (id != mocEditViewModel.Id)
+            {
+                return NotFound();
+            }
+            if (string.IsNullOrEmpty(mocEditViewModel.ClosingDate.ToString()))
+            {
+                ModelState.AddModelError("ClosingDate", "Lütfen Moc için bir kapanış tarihi giriniz");
+                
+            }
+            if (_context.Tasks.Where(x => x.MocId == id).Any(x => string.IsNullOrEmpty(x.ClosingNote)))
+            {
+                var notClosedTask = _context.Tasks.Where(x => x.MocId == id & string.IsNullOrEmpty(x.ClosingNote)).ToList();
+                var thisTasksUsers = notClosedTask.Select(x => x.RelatedUser).ToList();
+                ModelState.AddModelError("ClosingDate", "Bu Moc için atanan taskların tamamı kapatılmamış lütfen bu taskların kapanması için ilgili departman kullanıcılarıyla iletişime geçiniz Tam Liste Aşağıdadır");
+                for (int i = 0; i < thisTasksUsers.Count(); i++)
+                {
+                    ModelState.AddModelError("ClosingDate", $"{i + 1} {thisTasksUsers[i].UserName}");
+                }
+            }
+
+
+            try
+            {
+                Moc dbMoc = _context.Mocs.Include(x=>x.RelatedDepartments).Include(x=>x.RelatedUsers).FirstOrDefault(x => x.Id == id);
+                dbMoc.ClosingDate = mocEditViewModel.ClosingDate;
+
+                _context.Update(dbMoc);
+                _context.Entry(dbMoc).State = EntityState.Modified;
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!MocExists(mocEditViewModel.Id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+            return RedirectToAction(nameof(Index));
+
+            return View(mocEditViewModel);
+        }
+        private bool MocExists(int id)
+        {
+            return _context.Departments.Any(e => e.Id == id);
+        }
     }
 }

@@ -1,15 +1,21 @@
 ﻿@model MOCProject.Models.Moc
+@using Microsoft.AspNetCore.Identity
+@inject UserManager<ApplicationUser> UserManager
 
 @{
     ViewData["Title"] = "Details";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+
 <h1>Details</h1>
 
-<h2>
-    <a class="btn-link text-info" asp-area="" asp-controller="Tasks" asp-action="CreateByMocId" asp-route-id=@Model.Id>Bu Moc'a Görev Gir</a>
-</h2>
+@if (Model.CreatorId == UserManager.GetUserId(new System.Security.Claims.ClaimsPrincipal (User.Identity)))
+{
+    <h2>
+        <a class="btn-link text-info" asp-area="" asp-controller="Tasks" asp-action="CreateByMocId" asp-route-id=@Model.Id>Bu Moc'a Görev Gir</a>
+    </h2>
+}
 
 <div>
     <h4>Moc</h4>

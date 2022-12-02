@@ -37,7 +37,7 @@
     <tbody>
 @foreach (var item in Model) {
         <tr>
-            <td>
+            <td >
                 @Html.DisplayFor(modelItem => item.Name)
             </td>
             <td>
@@ -52,13 +52,26 @@
             <td>
                 @Html.DisplayFor(modelItem => item.InitiationDate)
             </td>
-            <td>
+            <td class="ClosingDate">
                 @Html.DisplayFor(modelItem => item.ClosingDate)
             </td>
             <td>
                 <a asp-action="Details" asp-route-id="@item.Id">Details</a> 
+                <a asp-action="Edit" asp-route-id="@item.Id">Kapat</a> 
             </td>
         </tr>
 }
     </tbody>
 </table>
+
+<script>
+    $(".ClosingDate").each(function () {
+        if ($(this).html().length > 30) { //sonra bu koşul iyi bir kodla düzeltilecek.
+            console.log($(this).html().length);
+            $(this).parent().css("background-color", "lightgreen");
+        } else {
+            console.log($(this).html().length);
+            $(this).parent().css("background-color", "lightpink");
+        }
+    });
+</script>

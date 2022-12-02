@@ -17,7 +17,8 @@ namespace MOCProject.Models
         public string RelatedUserId { get; set; }
         [Required]
         public DateTime Duedate { get; set; }
-        public DateTime ClosingDate { get; set; }
+        public DateTime? ClosingDate { get; set; }
+        public string ClosingNote { get; set; }
         public string Comment { get; set; }
         [Required]
         [MaxLength(255)]

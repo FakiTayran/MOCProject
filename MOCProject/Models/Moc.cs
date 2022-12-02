@@ -21,6 +21,7 @@ namespace MOCProject.Models
         public virtual ICollection<ApplicationUser> RelatedUsers { get; set;}
         public virtual ICollection<Task> Tasks { get; set; }
         public DateTime InitiationDate { get => DateTime.Now; }
-        public DateTime ClosingDate { get; set; }
+        public DateTime? ClosingDate { get; set; }
+        public string CreatorId { get; set; }
     }
 }

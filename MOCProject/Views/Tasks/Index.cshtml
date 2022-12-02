@@ -20,6 +20,9 @@
                 @Html.DisplayNameFor(model => model.ClosingDate)
             </th>
             <th>
+                @Html.DisplayNameFor(model => model.ClosingNote)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.Comment)
             </th>
             <th>
@@ -35,32 +38,47 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Duedate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ClosingDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Comment)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Definition)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.RelatedUser.Id)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Moc.Definition)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Duedate)
+                </td>
+                <td class="ClosingDate">
+                    @Html.DisplayFor(modelItem => item.ClosingDate)
+                </td>
+                <td >
+                    @Html.DisplayFor(modelItem => item.ClosingNote)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Comment)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Definition)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RelatedUser.Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Moc.Definition)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Kapat</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id">Detay</a> |
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
+
+<script>
+    $(".ClosingDate").each(function () {
+        if ($(this).html().length > 38) {  //sonra bu koşul iyi bir kodla düzeltilecek.
+            console.log($(this).html().length);
+            $(this).parent().css("background-color", "lightgreen");
+        } else {
+            console.log($(this).html().length);
+            $(this).parent().css("background-color", "lightpink");
+        }
+    });
+</script>
