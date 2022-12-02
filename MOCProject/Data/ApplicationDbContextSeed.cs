@@ -9,7 +9,7 @@ namespace MOCProject.Data
 {
     public static class ApplicationDbContextSeed
     {
-        public static  void SeedDepartments(ApplicationDbContext db)
+        public static void SeedDepartments(ApplicationDbContext db)
         {
             if (!db.Departments.Any())
             {
@@ -59,7 +59,7 @@ namespace MOCProject.Data
 
                 });
 
-                 db.SaveChanges();
+                db.SaveChanges();
             }
 
         }
@@ -78,7 +78,7 @@ namespace MOCProject.Data
                     SeedDepartments(db);
                 }
             }
-            await return host;
+            return host;
         }
     }
 }
