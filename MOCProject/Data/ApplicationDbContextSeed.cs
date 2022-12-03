@@ -19,47 +19,54 @@ namespace MOCProject.Data
                 {
                     db.Departments.Add(new Models.Department()
                     {
-                        Name = "İSG Departmanı",
+                        Name = "İSG",
 
                     });
                     db.Departments.Add(new Models.Department()
                     {
-                        Name = "Kalite Departmanı",
+                        Name = "Kalite",
 
                     });
                     db.Departments.Add(new Models.Department()
                     {
-                        Name = "Üretim, Satın Alma Departmanı",
+                        Name = "Üretim",
+
+                    });
+
+                    db.Departments.Add(new Models.Department()
+                    {
+                        Name = "Satın Alma",
+
+                    });
+
+                    db.Departments.Add(new Models.Department()
+                    {
+                        Name = "Bilişim Teknolojileri",
 
                     });
                     db.Departments.Add(new Models.Department()
                     {
-                        Name = "Bilişim Teknolojileri Departmanı",
+                        Name = "Planlama",
 
                     });
                     db.Departments.Add(new Models.Department()
                     {
-                        Name = "Planlama Departmanı",
+                        Name = "Lojistik",
 
                     });
                     db.Departments.Add(new Models.Department()
                     {
-                        Name = "Lojistik Departmanı",
+                        Name = "İnsan Kaynakları",
 
                     });
                     db.Departments.Add(new Models.Department()
                     {
-                        Name = "İnsan Kaynakları Departmanı",
+                        Name = "Muhasebe ve Finans",
 
                     });
                     db.Departments.Add(new Models.Department()
                     {
-                        Name = "Muhasebe ve Finans Departmanı",
-
-                    });
-                    db.Departments.Add(new Models.Department()
-                    {
-                        Name = "İdari İşler Departmanı",
+                        Name = "İdari İşler",
 
                     });
 
