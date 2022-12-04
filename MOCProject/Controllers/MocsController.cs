@@ -140,10 +140,12 @@ namespace MOCProject.Controllers
                 var notClosedTask = _context.Tasks.Where(x => x.MocId == id & string.IsNullOrEmpty(x.ClosingNote)).ToList();
                 var thisTasksUsers = notClosedTask.Select(x => x.RelatedUserId);
                 ModelState.AddModelError("ClosingDate", "Bu Moc için atanan taskların tamamı kapatılmamış lütfen bu taskların kapanması için ilgili departman kullanıcılarıyla iletişime geçiniz Tam Liste Aşağıdadır");
+                string liste = "";
                 for (int i = 0; i < thisTasksUsers.ToList().Count(); i++)
                 {
-                    ModelState.AddModelError("Id", $"{i + 1} -) {_context.Users.FirstOrDefault(x => x.Id == thisTasksUsers.ToList()[i]).UserName}");
+                    liste += $"{i + 1} -) {_context.Users.FirstOrDefault(x => x.Id == thisTasksUsers.ToList()[i]).UserName}" + System.Environment.NewLine;
                 }
+                ModelState.AddModelError("Id", liste);
             }
 
 
