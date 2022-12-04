@@ -47,7 +47,7 @@
                 <td class="ClosingDate">
                     @Html.DisplayFor(modelItem => item.ClosingDate)
                 </td>
-                <td >
+                <td>
                     @Html.DisplayFor(modelItem => item.ClosingNote)
                 </td>
                 <td>
@@ -63,8 +63,11 @@
                     @Html.DisplayFor(modelItem => item.Moc.Definition)
                 </td>
                 <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id">Kapat</a> |
-                    <a asp-action="Details" asp-route-id="@item.Id">Detay</a> |
+                    @if (string.IsNullOrEmpty(item.ClosingDate.ToString()))
+                    {
+                        <a asp-action="Edit" asp-route-id="@item.Id">Kapat</a>
+                    }
+                    <a asp-action="Details" asp-route-id="@item.Id">Detay</a>
                 </td>
             </tr>
         }
