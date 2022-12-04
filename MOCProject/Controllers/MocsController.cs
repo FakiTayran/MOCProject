@@ -133,28 +133,32 @@ namespace MOCProject.Controllers
             if (string.IsNullOrEmpty(mocEditViewModel.ClosingDate.ToString()))
             {
                 ModelState.AddModelError("ClosingDate", "Lütfen Moc için bir kapanış tarihi giriniz");
-                
+
             }
             if (_context.Tasks.Where(x => x.MocId == id).Any(x => string.IsNullOrEmpty(x.ClosingNote)))
             {
                 var notClosedTask = _context.Tasks.Where(x => x.MocId == id & string.IsNullOrEmpty(x.ClosingNote)).ToList();
-                var thisTasksUsers = notClosedTask.Select(x => x.RelatedUser).ToList();
+                var thisTasksUsers = notClosedTask.Select(x => x.RelatedUserId);
                 ModelState.AddModelError("ClosingDate", "Bu Moc için atanan taskların tamamı kapatılmamış lütfen bu taskların kapanması için ilgili departman kullanıcılarıyla iletişime geçiniz Tam Liste Aşağıdadır");
-                for (int i = 0; i < thisTasksUsers.Count(); i++)
+                for (int i = 0; i < thisTasksUsers.ToList().Count(); i++)
                 {
-                    ModelState.AddModelError("ClosingDate", $"{i + 1} {thisTasksUsers[i].UserName}");
+                    ModelState.AddModelError("Id", $"{i + 1} -) {_context.Users.FirstOrDefault(x => x.Id == thisTasksUsers.ToList()[i]).UserName}");
                 }
             }
 
 
             try
             {
-                Moc dbMoc = _context.Mocs.Include(x=>x.RelatedDepartments).Include(x=>x.RelatedUsers).FirstOrDefault(x => x.Id == id);
-                dbMoc.ClosingDate = mocEditViewModel.ClosingDate;
+                if (ModelState.IsValid)
+                {
+                    Moc dbMoc = _context.Mocs.Include(x => x.RelatedDepartments).Include(x => x.RelatedUsers).FirstOrDefault(x => x.Id == id);
+                    dbMoc.ClosingDate = mocEditViewModel.ClosingDate;
 
-                _context.Update(dbMoc);
-                _context.Entry(dbMoc).State = EntityState.Modified;
-                await _context.SaveChangesAsync();
+                    _context.Update(dbMoc);
+                    _context.Entry(dbMoc).State = EntityState.Modified;
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
+                }
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -167,7 +171,6 @@ namespace MOCProject.Controllers
                     throw;
                 }
             }
-            return RedirectToAction(nameof(Index));
 
             return View(mocEditViewModel);
         }
