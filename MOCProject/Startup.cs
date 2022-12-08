@@ -19,6 +19,7 @@ namespace MOCProject
 {
     public class Startup
     {
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -45,7 +46,7 @@ namespace MOCProject
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env,UserManager<ApplicationUser> userManager)
         {
             if (env.IsDevelopment())
             {
@@ -59,7 +60,7 @@ namespace MOCProject
                 app.UseHsts();
             }
             app.UseHttpsRedirection();
-            app.UseStaticFiles();
+            app.UseStaticFiles();  
 
             app.UseRouting();
 
@@ -76,6 +77,9 @@ namespace MOCProject
 
             //Seed Database 
             ApplicationDbContextSeed.SeedDepartments(app);
+            ApplicationDbContextSeed.SeedUser(userManager,app);
+            ApplicationDbContextSeed.SeedMoc(app);
+
         }
     }
 }

@@ -16,7 +16,7 @@ namespace MOCProject.Utility
             #region Mail Gönder
             MailMessage msg = new MailMessage();
             msg.Subject = Subject;
-            msg.From = new MailAddress("aridurufakitayran@gmail.com", "Moc Company");
+            msg.From = new MailAddress("ariduru@gmail.com", "Moc Company");
             foreach (var mail in To)
             {
                 msg.To.Add(mail);
@@ -31,7 +31,7 @@ namespace MOCProject.Utility
             client.Port = 587;
             #endregion
             //Setup credentials to login to our sender email address ("UserName", "Password")
-            NetworkCredential credentials = new NetworkCredential("aridurufakitayran@gmail.com", "apivvdkoldipqysi");
+            NetworkCredential credentials = new NetworkCredential("ariduru@gmail.com", "mepvoufgwmpinhye");
 
             client.UseDefaultCredentials = false;
             client.Credentials = credentials;
