@@ -8,45 +8,44 @@
 }
 
 
-<h1>Details</h1>
+<h1>Değişiklik detayları</h1>
 
 @if (Model.CreatorId == UserManager.GetUserId(new System.Security.Claims.ClaimsPrincipal (User.Identity)))
 {
     <h2>
-        <a class="btn-link text-info" asp-area="" asp-controller="Tasks" asp-action="CreateByMocId" asp-route-id=@Model.Id>Bu Moc'a Görev Gir</a>
+        <a class="btn-link text-info" asp-area="" asp-controller="Tasks" asp-action="CreateByMocId" asp-route-id=@Model.Id>Bu Değişiklik İçin Görev Oluştur</a>
     </h2>
 }
 
 <div>
-    <h4>Moc</h4>
     <hr />
     <dl class="row">
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Name)
+            Değişikliğin Adı
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Name)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Definition)
+            Tanımı
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Definition)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Justification)
+            Gerekçesi
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Justification)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Benefit)
+            Faydası
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Benefit)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.ClosingDate)
+            Kapanma Tarihi
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.ClosingDate)
@@ -54,5 +53,5 @@
     </dl>
 </div>
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index">Değişiklik Listesine Dön</a>
 </div>

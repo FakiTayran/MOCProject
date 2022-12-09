@@ -16,22 +16,22 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Name)
+                Değişiklik Adı
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Definition)
+                Tanımı
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Justification)
+                Gerekçe
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Benefit)
+                Fayda
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.InitiationDate)
+                Oluşturulma Tarihi
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ClosingDate)
+                Kapanma Tarihi
             </th>
             <th></th>
         </tr>
@@ -59,7 +59,7 @@
                     @Html.DisplayFor(modelItem => item.ClosingDate)
                 </td>
                 <td>
-                    <a asp-action="Details" asp-route-id="@item.Id">Details</a>
+                    <a asp-action="Details" asp-route-id="@item.Id">Detaylar</a>
                     @if (UserManager.GetUserId(new System.Security.Claims.ClaimsPrincipal(User.Identity)) == item.CreatorId && string.IsNullOrEmpty(item.ClosingDate.ToString()))
                     {
                         <a asp-action="Edit" asp-route-id="@item.Id">Kapat</a>

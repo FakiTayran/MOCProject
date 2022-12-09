@@ -5,54 +5,55 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Details</h1>
+<h1>Görev Detayları</h1>
 
 <div>
-    <h4>Task</h4>
+    
     <hr />
     <dl class="row">
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Duedate)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Duedate)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.ClosingDate)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.ClosingDate)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.ClosingNote)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.ClosingNote)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Comment)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Comment)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Definition)
+            Görev Tanımı
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Definition)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.RelatedUser.UserName)
+            Sorumlu Personel
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.RelatedUser.UserName)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Moc)
+            İlgili Değişiklik
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Moc.Definition)
         </dd>
+        <dt class="col-sm-2">
+            Termin
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Duedate)
+        </dd>
+        <dt class="col-sm-2">
+            Yorum
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Comment)
+        </dd>
+        <dt class="col-sm-2">
+            Kapanma Tarihi
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.ClosingDate)
+        </dd>
+        <dt class="col-sm-2">
+            Kapanma Notu
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.ClosingNote)
+        </dd>        
+        
     </dl>
 </div>
 <div>
