@@ -31,7 +31,7 @@ namespace MOCProject.Utility
             client.Port = 587;
             #endregion
             //Setup credentials to login to our sender email address ("UserName", "Password")
-            NetworkCredential credentials = new NetworkCredential("ariduru@gmail.com", "mepvoufgwmpinhye");
+            NetworkCredential credentials = new NetworkCredential("ariduru@gmail.com", "*");
 
             client.UseDefaultCredentials = false;
             client.Credentials = credentials;
