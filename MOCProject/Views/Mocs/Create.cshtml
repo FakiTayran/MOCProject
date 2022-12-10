@@ -5,35 +5,34 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Create</h1>
+<h1>Yeni Değişiklik Oluştur</h1>
 
-<h4>Moc</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form onsubmit="return FillMoc(event)" id="createMocForm">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="Moc.Name" class="control-label"></label>
+                <label asp-for="Moc.Name" class="control-label">Değişiklik Adı</label>
                 <input asp-for="Moc.Name" class="form-control" />
                 <span asp-validation-for="Moc.Name" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Moc.Definition" class="control-label"></label>
+                <label asp-for="Moc.Definition" class="control-label">Tanımı</label>
                 <input asp-for="Moc.Definition" class="form-control" />
                 <span asp-validation-for="Moc.Definition" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Moc.Justification" class="control-label"></label>
+                <label asp-for="Moc.Justification" class="control-label">Gerekçe</label>
                 <input asp-for="Moc.Justification" class="form-control" />
             </div>
             <div class="form-group">
-                <label asp-for="Moc.Benefit" class="control-label"></label>
+                <label asp-for="Moc.Benefit" class="control-label">Faydası</label>
                 <input asp-for="Moc.Benefit" class="form-control" />
             </div>
             <div class="form-group">
                 <div>
-                    <label asp-for="Moc.RelatedDepartments" class="control-label"></label>
+                    <label asp-for="Moc.RelatedDepartments" class="control-label">Etkilenecek Departmanlar</label>
                     @foreach (var item in Model.Departments)
                     {
                         <div>
@@ -41,7 +40,7 @@
                                 <input type="checkbox" class="DepartmentId" id="subDepartmentId_@item.Id" value=@item.Id onclick="CheckDepartment(@item.Id)" />&nbsp;@item.Name
                             </div>
                             <div>
-                                <button type="button" class="btn btn-default btn-sm dropdown-toggle departmentsButton" id="buttonDepartmentUsers_@item.Id" data-toggle="dropdown"><span>Related Users</span> <span class="caret"></span></button>
+                                <button type="button" class="btn btn-default btn-sm dropdown-toggle departmentsButton" id="buttonDepartmentUsers_@item.Id" data-toggle="dropdown"><span>İlgili Personel</span> <span class="caret"></span></button>
                                 <ul class="dropdown-menu">
                                     @foreach (var user in item.DepartmentMembers.ToList())
                                     {
@@ -55,7 +54,7 @@
             </div>
             <br />
             <div class="form-group">
-                <label asp-for="Moc.InitiationDate" class="control-label"></label>
+                <label asp-for="Moc.InitiationDate" class="control-label">Değişik Başlangıç Tarihi</label>
                 <input asp-for="Moc.InitiationDate" class="form-control" />
                 <span asp-validation-for="Moc.InitiationDate" class="text-danger"></span>
             </div>
@@ -71,7 +70,7 @@
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index">Değişiklik Listesine Dön</a>
 </div>
 
 @section Scripts {

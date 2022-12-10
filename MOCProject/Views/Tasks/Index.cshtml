@@ -5,34 +5,34 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Index</h1>
+<h1>Görev Listesi</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create">Yeni Görev Oluştur</a>
 </p>
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Duedate)
+                Görev Tanımı
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ClosingDate)
+                Sorumlu
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ClosingNote)
+                Yorum
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Comment)
+                Termin
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Definition)
+                İlgili Değişiklik
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.RelatedUser)
+                Kapanma Tarihi
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Moc)
+                Kapanma Notu
             </th>
             <th></th>
         </tr>
@@ -42,25 +42,25 @@
         {
             <tr>
                 <td>
+                    @Html.DisplayFor(modelItem => item.Definition)
+                </td>
+                 <td>
+                    @Html.DisplayFor(modelItem => item.RelatedUser.Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Comment)
+                </td>
+                <td>
                     @Html.DisplayFor(modelItem => item.Duedate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Moc.Definition)
                 </td>
                 <td class="ClosingDate">
                     @Html.DisplayFor(modelItem => item.ClosingDate)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.ClosingNote)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Comment)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Definition)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.RelatedUser.Id)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Moc.Definition)
                 </td>
                 <td>
                     @if (string.IsNullOrEmpty(item.ClosingDate.ToString()))

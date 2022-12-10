@@ -5,25 +5,24 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Create</h1>
+<h1>Yeni Görev Oluştur</h1>
 
-<h4>Task</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label class="control-label">Bağlı olduğu Moc</label>
+                <label class="control-label">Bağlı olduğu Değişiklik</label>
                 <select asp-for="MocId" class="form-control" asp-items="ViewBag.MocId"></select>
             </div>
             <div class="form-group">
-                <label class="control-label">Atanacak Kullanıcı</label>
+                <label class="control-label">Atanacak Personel</label>
                 <select asp-for="RelatedUserId" class="form-control" asp-items="ViewBag.RelatedUserId"></select>
                 
             </div>
             <div class="form-group">
-                <label asp-for="Duedate" class="control-label"></label>
+                <label asp-for="Duedate" class="control-label">Termin</label>
                 <input asp-for="Duedate" class="form-control" />
                 <span asp-validation-for="Duedate" class="text-danger"></span>
             </div>
@@ -32,16 +31,16 @@
                 <input asp-for="ClosingDate" class="form-control" hidden/>
             </div>
             <div class="form-group">
-                <label asp-for="Comment" class="control-label"></label>
+                <label asp-for="Comment" class="control-label">Yorum</label>
                 <input asp-for="Comment" class="form-control" />
             </div>
             <div class="form-group">
-                <label asp-for="Definition" class="control-label"></label>
+                <label asp-for="Definition" class="control-label">Görev Tanımı</label>
                 <input asp-for="Definition" class="form-control" />
                 <span asp-validation-for="Definition" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Oluştur" class="btn btn-primary" />
             </div>
         </form>
     </div>

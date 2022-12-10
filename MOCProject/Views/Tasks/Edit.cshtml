@@ -5,9 +5,9 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Görevimi Kapat</h1>
+<h1>Görevi Kapat</h1>
 
-<h4>Task</h4>
+
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -29,19 +29,19 @@
                 <input asp-for="Definition" class="form-control" hidden="hidden" />
             </div>
             <div class="form-group">
-                <label asp-for="ClosingDate" class="control-label"></label>
+                <label asp-for="ClosingDate" class="control-label">Kapanma Tarihi</label>
                 <input asp-for="ClosingDate" class="form-control" />
                 <span asp-validation-for="ClosingDate" class="text-danger"></span>
 
             </div>
             <div class="form-group">
-                <label asp-for="ClosingNote" class="control-label"></label>
+                <label asp-for="ClosingNote" class="control-label">Kapanma Notu</label>
                 <input asp-for="ClosingNote" class="form-control" />
                 <span asp-validation-for="ClosingNote" class="text-danger"></span>
             </div>
             <input type="hidden" asp-for="Id" />
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                <input type="submit" value="Kaydet" class="btn btn-primary" />
             </div>
         </form>
     </div>
