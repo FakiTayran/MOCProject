@@ -1,7 +1,7 @@
 # MOCProject
 
 
-<p>1-) first open package manager console and write cd projectpath </p>
+<p>1-) first open package manager console and write cd projectpath(your own local project path) </p>
 <p>2-) then write dotnet ef database update </p>
 <br/>
 <h3>This project is changes and changes follow application for companies</h3>
